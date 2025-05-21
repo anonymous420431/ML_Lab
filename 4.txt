@@ -1,0 +1,27 @@
+import numpy as np
+import pandas as pd
+data = pd.read_csv(r" ")
+print("\nThe given training examples are:")
+print(data)
+
+
+hypo = ['%'] * 4 
+positive_examples = data[data.iloc[:, -1] == 'YES']
+print("\nThe positive examples are:")
+print(positive_examples)
+
+
+hypo = positive_examples.iloc[0, :-1].tolist()
+print("\nInitial hypothesis:", hypo)
+['GREEN', 'HARD', 'NO', 'WRINKLED']
+for i in range(1, len(positive_examples)):
+    print("\n Iteration", i)
+    print("Current hypothesis:", hypo)
+    for j in range(len(hypo)):
+        if hypo[j] != positive_examples.iloc[i, j]:
+            hypo[j] = '?'
+    print("Updated hypothesis:", hypo)
+
+
+print("\nThe maximally specific Find-s hypothesis for the given training examples is :")
+print(hypo)

@@ -1,0 +1,64 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import warnings
+warnings.filterwarnings('ignore')
+
+
+df = pd.read_csv(r"")
+
+
+df.head()
+
+
+df.shape
+
+
+df.info()
+
+
+df.describe()
+
+
+df.isnull().sum()
+
+
+Q1 = df["total_bedrooms"].quantile(0.25)
+Q3 = df["total_bedrooms"].quantile(0.75)
+print ("Quartiles:", Q1, Q3)
+IQR = Q3 - Q1
+print("IQR:",IQR)
+lower_bound = Q1 - 1.5 * IQR
+upper_bound = Q3 + 1.5 * IQR
+print("Lower_bound", " ", "Upper_bound")
+print(lower_bound, " ", upper_bound)
+outliers = df[(df["total_bedrooms"] < lower_bound) |
+(df["total_bedrooms"] > upper_bound)]
+print("Outliers:\n", outliers)
+
+
+df['total_bedrooms'].fillna(df['total_bedrooms'].median(),
+inplace=True)
+
+
+df.isnull().sum()
+
+
+Numerical = df.select_dtypes(include=[np.number]).columns
+print(Numerical)
+
+
+for col in Numerical:
+    plt.figure(figsize=(4, 2))
+    df[col].plot(kind='hist', title=col, bins=60, edgecolor='black')
+    plt.ylabel('Frequency')
+    plt.show()
+
+
+for col in Numerical:
+    plt.figure(figsize=(4, 3))
+    sns.boxplot(df[col], color='blue')
+    plt.title(col)
+    plt.ylabel(col)
+    plt.show()
